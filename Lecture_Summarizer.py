@@ -45,7 +45,6 @@ def set_aai_key():
 
 "# Lecture Summarizer"
 "Use this application to **automatically summarize a virtual lecture** and **ask questions** about the lesson material."
-"Learn how to build this app [here](https://www.assemblyai.com/blog/build-an-interactive-lecture-summarization-app/)."
 
 with st.expander("Processing time"):
     "The time to process a file is 15-30% of the file's duration, so an hour-long lecture will take several minutes to process."
@@ -54,13 +53,6 @@ with st.expander("Processing time"):
 st.divider()
 
 if not environ_key:
-    "## API Key"
-    """
-To get started, paste your AssemblyAI API key in the below box.
-If you don't have an API key, you can get one [here](https://www.assemblyai.com/dashboard/signup). You will need to set up billing in order to use this application since it uses [LeMUR](https://www.assemblyai.com/blog/lemur/).
-
-You can copy your API key by pressing the `Copy token` button on the right hand side of your [Dashboard](https://www.assemblyai.com/app).
-    """
     input_key = st.text_input(
         "API Key",
         placeholder="Enter your AssemblyAI API key here",
@@ -68,8 +60,6 @@ You can copy your API key by pressing the `Copy token` button on the right hand 
         on_change=set_aai_key,
         key='input_aai_key'
         )
-
-    st.warning("Note: You can avoid this section by setting the `ASSEMBLYAI_API_KEY` environment variable, either through the terminal or the `.env` file.", icon="🗒️")
 
 if input_key or environ_key:
     "## Lecture"
@@ -100,7 +90,7 @@ if input_key or environ_key:
                           placeholder="YouTube link"
                           )
 
-    value = "" if ftype == "Local file" else "A lesson from Harvard's CS50P course. The lesson is about Unit Testing in Python."
+    value = "" if ftype == "Local file" else "Improve Your Baseline Dopamine for Motivation & Drive | Dr. Andrew Huberman"
     placeholder = "Contextualizing information about the file (optional)"
     context = st.text_input("Context", value=value, placeholder=placeholder)
      
@@ -112,7 +102,7 @@ if f:
         if ftype == "Local file":
             os.remove(f)
         elif ftype == "YouTube link":
-            os.remove(YTDLP_FNAME)  # remove file bc youtube DL will not work if there already exists file with that name
+            os.remove(YTDLP_FNAME)
 
         st.session_state['transcript'] = transcript
 
@@ -146,7 +136,7 @@ if st.session_state['summary']:
     "Ask a question about the lesson below:"
     
     question = st.text_input("Question",
-                              placeholder="What is the point of using Pytest?",
+                              placeholder="What is the meaning of life ?",
                               )
     
     question_asked = st.button("Submit", key='question_asked')
@@ -154,4 +144,4 @@ if st.session_state['summary']:
         with st.spinner('Asking question...'):
             answer = ask_question(st.session_state['transcript'], question)
     answer
-    
+
